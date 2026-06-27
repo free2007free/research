@@ -18,8 +18,12 @@ PubMed via Entrez) and recording the resulting analysis.
 src/research/        Importable package
   config.py          Project paths + env-based configuration
   literature.py      PubMed / Entrez search + fetch helpers
+  analysis.py        Pure analysis + plotting helpers (no network/I/O)
+scripts/             Runnable example / pipeline scripts
+  example_analysis.py  End-to-end: search → fetch → summarize → save outputs
 tests/               Pytest suite (network calls mocked — runs offline)
 notebooks/           Exploratory Jupyter notebooks
+  example_analysis.ipynb  Demonstrates the workflow (has an offline section)
 data/                raw → interim → processed → external pipeline (gitignored)
 outputs/             Figures, tables, exported results (gitignored)
 docs/                Notes and written documentation

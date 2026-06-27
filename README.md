@@ -31,13 +31,27 @@ for article in fetch_summaries(pmids):
     print(article.year, article.title)
 ```
 
+### Example analysis
+
+An end-to-end example searches PubMed, summarizes the results, and writes a CSV
+plus a publications-per-year chart to `outputs/`:
+
+```bash
+python scripts/example_analysis.py "CRISPR off-target effects" --retmax 50
+```
+
+See `notebooks/example_analysis.ipynb` for the same workflow as a notebook
+(including an offline section that runs without network access).
+
 ## Project layout
 
 ```
 research/
 ├── src/research/        # Importable Python package
 │   ├── config.py        # Paths + env-based configuration
-│   └── literature.py    # PubMed / Entrez search + fetch helpers
+│   ├── literature.py    # PubMed / Entrez search + fetch helpers
+│   └── analysis.py      # Pure analysis + plotting helpers
+├── scripts/             # Runnable example / pipeline scripts
 ├── tests/               # Pytest suite (network calls are mocked)
 ├── notebooks/           # Exploratory Jupyter notebooks
 ├── data/
