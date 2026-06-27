@@ -2,19 +2,67 @@
 
 Guidance for AI assistants (Claude Code and others) working in this repository.
 
-## Repository status
+## Project overview
 
-**This repository is currently empty** — it was freshly initialized and
-contains no application code, build configuration, or history yet. There is no
-codebase to document at this time.
-
-This file establishes the conventions to follow and should be **kept up to date
-as the project takes shape**. When real code is added, replace the placeholder
-sections below with concrete details (architecture, build/test commands,
-directory layout, key modules, and domain conventions).
+`research` is an **academic / literature research project** written in Python.
+It supports searching, collecting, and analyzing scholarly literature (e.g. from
+PubMed via Entrez) and recording the resulting analysis.
 
 - **Name:** `research` (`free2007free/research`)
 - **Default working directory:** `/home/user/research`
+- **Language:** Python ≥ 3.10, packaged with `pyproject.toml` (setuptools).
+
+## Directory layout
+
+```
+src/research/        Importable package
+  config.py          Project paths + env-based configuration
+  literature.py      PubMed / Entrez search + fetch helpers
+tests/               Pytest suite (network calls mocked — runs offline)
+notebooks/           Exploratory Jupyter notebooks
+data/                raw → interim → processed → external pipeline (gitignored)
+outputs/             Figures, tables, exported results (gitignored)
+docs/                Notes and written documentation
+pyproject.toml       Package metadata, dependencies, tool config
+README.md            Human-facing quick start
+```
+
+The package lives under `src/` (src layout). Import it as `research`, e.g.
+`from research.literature import search_pubmed`.
+
+## Build / run / test
+
+Use a virtual environment. Common commands:
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev,analysis]"   # install package + tooling
+
+pytest                              # run tests
+ruff check .                        # lint
+ruff format .                       # format
+mypy src                            # type-check
+```
+
+The test suite mocks all Entrez/network calls, so `pytest` must pass **without**
+internet access. Keep it that way: never let a unit test hit the network.
+
+## Conventions
+
+- **Isolate network access.** All external API calls live in dedicated modules
+  (e.g. `literature.py`). The rest of the code stays pure and testable.
+- **No hardcoded paths.** Use the constants in `research.config` (`RAW_DIR`,
+  `PROCESSED_DIR`, etc.) instead of literal paths in scripts/notebooks.
+- **Data pipeline stages:** `raw` (immutable downloads) → `interim` (partial) →
+  `processed` (analysis-ready). `external` holds third-party reference data.
+  Contents are gitignored; only `.gitkeep` files are tracked — do not commit
+  large or sensitive data.
+- **Secrets** live in a local `.env` (gitignored); see `.env.example`. Never
+  commit real API keys.
+- **Style:** ruff (line length 100, rules E/F/I/UP/B). Add type hints; mypy runs
+  over `src`.
+- **Tests:** add a test under `tests/` for new functionality; mock the network.
+- **Keep this file and `README.md` current** when structure or conventions change.
 
 ## Git workflow
 
@@ -26,24 +74,3 @@ directory layout, key modules, and domain conventions).
   to 4 times with exponential backoff (2s, 4s, 8s, 16s).
 - **Do not open a pull request** unless explicitly asked.
 - When fetching/pulling, prefer specifying the branch: `git fetch origin <branch>`.
-
-## Conventions to honor
-
-- Keep this file current. Whenever the structure, workflow, or conventions
-  change, update CLAUDE.md in the same change.
-- Use the repository's scratchpad/temp directory for throwaway files rather than
-  committing them.
-- Don't introduce a tool, framework, or dependency without confirming it fits
-  the (future) project's stack — there is no established stack to match yet.
-
-## To fill in as the codebase grows
-
-Replace this section with real content once code lands:
-
-- **Project overview** — what the project does and who it's for.
-- **Architecture** — major components and how they fit together.
-- **Directory layout** — what lives where.
-- **Build / run / test** — the exact commands to build, run, and test.
-- **Code style & conventions** — linting, formatting, naming, patterns.
-- **Testing** — how tests are organized and run; expectations for new code.
-- **Gotchas** — non-obvious constraints worth knowing before making changes.

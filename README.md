@@ -1,0 +1,70 @@
+# research
+
+An academic / literature research project. The codebase supports searching,
+collecting, and analyzing scholarly literature (e.g. via PubMed) and recording
+the analysis.
+
+## Quick start
+
+```bash
+# 1. Create and activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+
+# 2. Install the package (editable) with dev + analysis extras
+pip install -e ".[dev,analysis]"
+
+# 3. Configure credentials (optional but recommended for PubMed)
+cp .env.example .env             # then edit .env
+
+# 4. Run the tests
+pytest
+```
+
+## Usage
+
+```python
+from research.literature import search_pubmed, fetch_summaries
+
+pmids = search_pubmed("CRISPR off-target effects", retmax=10)
+for article in fetch_summaries(pmids):
+    print(article.year, article.title)
+```
+
+## Project layout
+
+```
+research/
+├── src/research/        # Importable Python package
+│   ├── config.py        # Paths + env-based configuration
+│   └── literature.py    # PubMed / Entrez search + fetch helpers
+├── tests/               # Pytest suite (network calls are mocked)
+├── notebooks/           # Exploratory Jupyter notebooks
+├── data/
+│   ├── raw/             # Original, immutable downloads (gitignored)
+│   ├── interim/         # Intermediate, partially processed data (gitignored)
+│   ├── processed/       # Final, analysis-ready datasets (gitignored)
+│   └── external/        # Third-party reference data (gitignored)
+├── outputs/             # Figures, tables, exported results (gitignored)
+├── docs/                # Notes and written documentation
+├── pyproject.toml       # Package metadata, dependencies, tool config
+└── CLAUDE.md            # Guidance for AI assistants
+```
+
+The `data/` subdirectories follow a raw → interim → processed pipeline. Their
+contents are gitignored; only `.gitkeep` placeholders are tracked, so the
+structure persists without committing large or sensitive files.
+
+## Development
+
+```bash
+ruff check .         # lint
+ruff format .        # format
+mypy src             # type-check
+pytest               # test
+```
+
+## Configuration
+
+Runtime configuration is read from a local `.env` file (see `.env.example`).
+Secrets must never be committed — `.env` is gitignored.
