@@ -20,10 +20,12 @@ src/research/        Importable package
   literature.py      PubMed / Entrez search + fetch helpers
   analysis.py        Pure analysis + plotting helpers (no network/I/O)
   ingest.py          Load a reading list (CSV/JSON) from data/external → Articles
+  watch.py           Detect new/changed files across runs (content-hash ledger)
 scripts/             Runnable example / pipeline scripts
   example_analysis.py  End-to-end: search → fetch → summarize → save outputs
   analyze_reading_list.py  Analyze a Drive-synced reading list from data/external
   integrate_monthly_reports.py  Cross-report integration of monthly reports
+  process_new_reports.py  Idempotent: analyze only files new since the last run
 tests/               Pytest suite (network calls mocked — runs offline)
 notebooks/           Exploratory Jupyter notebooks
   example_analysis.ipynb  Demonstrates the workflow (has an offline section)

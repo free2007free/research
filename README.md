@@ -70,6 +70,21 @@ is committed at `docs/literature_monthly_2026-05.md`.
    python scripts/integrate_monthly_reports.py
    ```
 
+### Auto-analyze new arrivals
+
+To analyze files **only when they're new**, `process_new_reports.py` keeps a
+content-hash ledger (`data/external/.processed_ledger.json`) and processes just
+the files that are new or changed since the last run, then regenerates the
+integration. It is idempotent, so it's safe to run on a schedule:
+
+```bash
+python scripts/process_new_reports.py            # analyze new arrivals
+python scripts/process_new_reports.py --dry-run  # list new files only
+python scripts/process_new_reports.py --all      # reprocess everything
+```
+
+Typical loop: sync the Drive folder into `data/external/`, then run the above.
+
 ## Project layout
 
 ```
