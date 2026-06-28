@@ -19,8 +19,10 @@ src/research/        Importable package
   config.py          Project paths + env-based configuration
   literature.py      PubMed / Entrez search + fetch helpers
   analysis.py        Pure analysis + plotting helpers (no network/I/O)
+  ingest.py          Load a reading list (CSV/JSON) from data/external → Articles
 scripts/             Runnable example / pipeline scripts
   example_analysis.py  End-to-end: search → fetch → summarize → save outputs
+  analyze_reading_list.py  Analyze a Drive-synced reading list from data/external
 tests/               Pytest suite (network calls mocked — runs offline)
 notebooks/           Exploratory Jupyter notebooks
   example_analysis.ipynb  Demonstrates the workflow (has an offline section)
@@ -66,6 +68,10 @@ internet access. Keep it that way: never let a unit test hit the network.
 - **Style:** ruff (line length 100, rules E/F/I/UP/B). Add type hints; mypy runs
   over `src`.
 - **Tests:** add a test under `tests/` for new functionality; mock the network.
+- **External sources (e.g. Google Drive):** the package never calls Drive
+  directly. Files from the Drive *journal reading* folder are synced into
+  `data/external/` and read from there via `research.ingest`, keeping runtime
+  code offline-testable and consistent with the data-pipeline convention.
 - **Keep this file and `README.md` current** when structure or conventions change.
 
 ## Git workflow

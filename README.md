@@ -43,6 +43,24 @@ python scripts/example_analysis.py "CRISPR off-target effects" --retmax 50
 See `notebooks/example_analysis.ipynb` for the same workflow as a notebook
 (including an offline section that runs without network access).
 
+### Analyzing a reading list (Google Drive)
+
+Papers collected in a Google Drive *journal reading* folder can be analyzed too.
+The project code does not talk to Drive directly; instead, files are synced into
+`data/external/` and read from there:
+
+1. The assistant downloads the Drive folder's contents into `data/external/`
+   (via its Drive connection), or you place a reading-list `reading_list.csv`
+   / `.json` there yourself. CSV columns: `pmid,title,journal,year`.
+2. Run the analysis:
+
+   ```bash
+   python scripts/analyze_reading_list.py data/external/reading_list.csv
+   ```
+
+   It prints a summary and writes `outputs/reading_list_per_year.png`. With no
+   reading list present it inventories any PDFs in `data/external/` instead.
+
 ## Project layout
 
 ```
