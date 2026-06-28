@@ -56,6 +56,9 @@ mypy src                            # type-check
 The test suite mocks all Entrez/network calls, so `pytest` must pass **without**
 internet access. Keep it that way: never let a unit test hit the network.
 
+CI (`.github/workflows/ci.yml`) runs these same four checks — `ruff check`,
+`ruff format --check`, `mypy src`, `pytest` — on every push and pull request.
+
 ## Conventions
 
 - **Isolate network access.** All external API calls live in dedicated modules
