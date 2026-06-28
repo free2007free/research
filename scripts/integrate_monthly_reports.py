@@ -42,8 +42,17 @@ def main() -> None:
 
     print(f"Total rows: {len(df)}  |  unique papers (by PMID): {n_unique}")
     print("\nBy report x section:")
-    print(df.pivot_table(index="report", columns="section", values="pmid",
-                         aggfunc="count", fill_value=0, margins=True, margins_name="總計"))
+    print(
+        df.pivot_table(
+            index="report",
+            columns="section",
+            values="pmid",
+            aggfunc="count",
+            fill_value=0,
+            margins=True,
+            margins_name="總計",
+        )
+    )
 
     print("\nCross-report duplicates (same PMID in >1 report):")
     dups = df[df["pmid"] != ""].groupby("pmid").filter(lambda g: g["report"].nunique() > 1)
@@ -58,8 +67,9 @@ def main() -> None:
     # Romanize specialty names so the chart renders without a CJK font.
     report_en = {"ERCP": "ERCP", "肝硬化": "Cirrhosis", "脂肪肝": "Fatty liver"}
     plot_df = df.assign(report=df["report"].map(report_en).fillna(df["report"]))
-    ax = plot_df.pivot_table(index="report", columns="section", values="pmid",
-                             aggfunc="count", fill_value=0).plot(kind="bar", figsize=(7, 4))
+    ax = plot_df.pivot_table(
+        index="report", columns="section", values="pmid", aggfunc="count", fill_value=0
+    ).plot(kind="bar", figsize=(7, 4))
     ax.set_ylabel("Papers")
     ax.set_title("2026-05 monthly reports: papers by specialty x section")
     fig = ax.get_figure()
@@ -68,8 +78,13 @@ def main() -> None:
     fig.savefig(p1, dpi=150)
     print(f"\nWrote {p1}")
 
-    ax2 = unique["journal"].value_counts().head(12).iloc[::-1].plot(
-        kind="barh", figsize=(7, 5), color="#4C72B0")
+    ax2 = (
+        unique["journal"]
+        .value_counts()
+        .head(12)
+        .iloc[::-1]
+        .plot(kind="barh", figsize=(7, 5), color="#4C72B0")
+    )
     ax2.set_xlabel("Unique papers")
     ax2.set_title("2026-05 monthly reports: top journals")
     fig2 = ax2.get_figure()

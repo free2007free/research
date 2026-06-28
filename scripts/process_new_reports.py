@@ -39,7 +39,9 @@ SCRIPTS = Path(__file__).resolve().parent
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--all", action="store_true", help="Reprocess every file, ignoring the ledger")
+    parser.add_argument(
+        "--all", action="store_true", help="Reprocess every file, ignoring the ledger"
+    )
     parser.add_argument("--dry-run", action="store_true", help="List new files without analyzing")
     args = parser.parse_args()
 
@@ -65,15 +67,13 @@ def main() -> int:
             except Exception as exc:  # noqa: BLE001 - report and continue
                 print(f"\n{path.name}: could not parse as a reading list ({exc})")
         else:
-            print(f"\n{path.name}: {path.suffix} report noted (convert to reading_list.csv to analyze)")
+            print(f"\n{path.name}: {path.suffix} noted (convert to reading_list.csv)")
 
     # Regenerate the cross-report integration over the full reading list.
     reading_list = EXTERNAL_DIR / "reading_list.csv"
     if reading_list.exists():
         print("\nRegenerating cross-report integration...")
-        subprocess.run(
-            [sys.executable, str(SCRIPTS / "integrate_monthly_reports.py")], check=True
-        )
+        subprocess.run([sys.executable, str(SCRIPTS / "integrate_monthly_reports.py")], check=True)
 
     save_ledger(mark_processed(ledger, new_files), DEFAULT_LEDGER)
     print(f"\nLedger updated ({DEFAULT_LEDGER.name}). {len(new_files)} file(s) marked processed.")

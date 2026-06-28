@@ -18,9 +18,11 @@ from Bio import Entrez
 
 from research.config import NCBI_API_KEY, NCBI_EMAIL
 
-Entrez.email = NCBI_EMAIL
+# Bio.Entrez declares these module globals as None, so mypy rejects the str
+# assignment; the runtime accepts it. Ignore the spurious assignment error.
+Entrez.email = NCBI_EMAIL  # type: ignore[assignment]
 if NCBI_API_KEY:
-    Entrez.api_key = NCBI_API_KEY
+    Entrez.api_key = NCBI_API_KEY  # type: ignore[assignment]
 
 
 @dataclass

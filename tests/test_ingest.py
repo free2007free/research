@@ -15,9 +15,7 @@ from research.literature import Article
 
 def test_load_reading_list_csv(tmp_path):
     csv_path = tmp_path / "reading.csv"
-    csv_path.write_text(
-        "pmid,title,journal,year\n111,A study,Nature,2024\n", encoding="utf-8"
-    )
+    csv_path.write_text("pmid,title,journal,year\n111,A study,Nature,2024\n", encoding="utf-8")
     assert load_reading_list_csv(csv_path) == [
         Article(pmid="111", title="A study", journal="Nature", year="2024")
     ]
