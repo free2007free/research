@@ -77,6 +77,32 @@ internet access. Keep it that way: never let a unit test hit the network.
   code offline-testable and consistent with the data-pipeline convention.
 - **Keep this file and `README.md` current** when structure or conventions change.
 
+## Working principles
+
+Operating guidelines for any assistant making changes here:
+
+- **Read before writing** — read the relevant files before editing. (寫之前先讀檔案)
+- **State assumptions when unsure** — if the request is ambiguous, say your
+  assumption before acting. (不確定就先說假設)
+- **Prefer the simplest change** — smaller diffs over clever ones. (改動越簡單越好)
+- **Don't invent architecture** — follow the existing structure; don't fabricate
+  one. (不要自己腦補架構)
+- **Verify the output** — run the code or inspect results after a change. (做完要驗證輸出)
+- **Understand before modifying** (先理解，再修改)
+- **No gratuitous refactors** — don't rewrite the whole package to show off.
+  (不要為了炫技重構整包)
+- **Record repeated mistakes** — note recurring errors under *Known pitfalls* so
+  they aren't repeated. (重複錯誤要記下來)
+- **Every step must be explainable** — be able to justify each change. (每一步都要能解釋)
+- **Run tests before delivering** — `pytest` must pass before handing off. (交付前先跑測試)
+
+### Known pitfalls
+
+- **Matplotlib + CJK labels render as boxes.** The default font lacks CJK glyphs,
+  so charts with Chinese category names show tofu boxes and emit warnings.
+  Romanize labels for plotting (see `scripts/integrate_monthly_reports.py`, which
+  maps the specialty names to English before `.plot()`).
+
 ## Git workflow
 
 - **Develop on the feature branch** `claude/claude-md-docs-slucre`. Create it
