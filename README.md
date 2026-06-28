@@ -61,6 +61,15 @@ The project code does not talk to Drive directly; instead, files are synced into
    It prints a summary and writes `outputs/reading_list_per_year.png`. With no
    reading list present it inventories any PDFs in `data/external/` instead.
 
+For multiple monthly reports across specialties, `integrate_monthly_reports.py`
+produces a cross-report breakdown (counts by specialty/section, top journals,
+duplicate detection) and charts. A worked example covering the 2026-05 reports
+is committed at `docs/literature_monthly_2026-05.md`.
+
+   ```bash
+   python scripts/integrate_monthly_reports.py
+   ```
+
 ## Project layout
 
 ```

@@ -23,6 +23,7 @@ src/research/        Importable package
 scripts/             Runnable example / pipeline scripts
   example_analysis.py  End-to-end: search → fetch → summarize → save outputs
   analyze_reading_list.py  Analyze a Drive-synced reading list from data/external
+  integrate_monthly_reports.py  Cross-report integration of monthly reports
 tests/               Pytest suite (network calls mocked — runs offline)
 notebooks/           Exploratory Jupyter notebooks
   example_analysis.ipynb  Demonstrates the workflow (has an offline section)
